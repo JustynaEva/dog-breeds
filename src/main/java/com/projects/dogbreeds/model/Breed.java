@@ -1,21 +1,21 @@
 package com.projects.dogbreeds.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
+@Builder
 public class Breed {
 
+    private Integer id;
     private String name;
-    private int maleWeight;
-    private int femaleWeight;
-    private int lowerAverageAge;
-    private int higherAverageAge;
+    private String size;
+    private Integer maleWeight;
+    private Integer femaleWeight;
+    private Integer lowerAverageAge;
+    private Integer higherAverageAge;
     private String characterTraits;
     private String coatType;
     private String colorCoat;
