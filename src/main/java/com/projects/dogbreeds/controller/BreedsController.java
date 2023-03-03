@@ -76,6 +76,11 @@ public class BreedsController {
             return "Breed " + breedInRepo.getName() + " is partially updated.";
         }
     }
+    @DeleteMapping("delete/{id}")
+    public String deleteBreed(@PathVariable int id) {
+        BreedsRepository.breedsRepository.remove(id);
+        return "Breed removed.";
+    }
     private static String getResponseUnknownBreed(HttpServletResponse response) {
         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         return "Breed is not recognized.Try to add a new breed.";
