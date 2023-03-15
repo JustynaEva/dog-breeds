@@ -1,23 +1,29 @@
-package com.projects.dogbreeds.model;
+package com.projects.dogbreeds.model.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
 @Builder
+@Entity
+@Table(name = "dog_breed")
 public class Breed {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
     private String name;
     private String size;
-    private Integer maleWeight;
-    private Integer femaleWeight;
+    private Float minWeight;
+    private Float maxWeight;
     private Integer lowerAverageAge;
     private Integer higherAverageAge;
-    private String characterTraits;
-    private String coatType;
+    private String temperament;
     private String colorCoat;
     private String origin;
 }
