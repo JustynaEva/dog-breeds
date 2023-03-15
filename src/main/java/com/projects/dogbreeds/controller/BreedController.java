@@ -1,7 +1,8 @@
 package com.projects.dogbreeds.controller;
 
 import com.projects.dogbreeds.model.entity.Breed;
-import com.projects.dogbreeds.repository.BreedsRepository;
+import com.projects.dogbreeds.repository.BreedRepository;
+import com.projects.dogbreeds.service.breed.BreedService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,20 +11,19 @@ import java.util.List;
 @RestController
 @RequestMapping("dogs")
 @RequiredArgsConstructor
-public class BreedsController {
-    private final BreedsRepository breedsRepository;
+public class BreedController {
+    private final BreedService breedService;
 
     @GetMapping("all")
-    public List<Breed> getAll()
-    {
-        return breedsRepository.findAll();
+    public List<Breed> getAll() {
+        return breedService.getAllBreeds();
     }
 
-//    @PostMapping("save")
-//    public Breed save(@RequestBody Breed breed) {
-//        BreedsRepository.breedsRepository.add(breed);
-//        return breed;
-//    }
+    @PostMapping("save")
+    public Breed save(@RequestBody Breed breed) {
+        return breedService.saveBreed(breed);
+    }
+
 //    @PutMapping("update")
 //    public String updateWithFullBody (@RequestBody Breed breed, HttpServletResponse response) {
 //        if (BreedsRepository.breedsRepository.size() - 1 < breed.getId()) {
