@@ -1,23 +1,22 @@
-package com.projects.dogbreeds.model;
+package com.projects.dogbreeds.model.dto;
 
 import lombok.*;
 
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
-@Getter
 @Builder
-public class Breed {
+public class BreedDto {
 
     private Integer id;
     private String name;
     private String size;
-    private Integer maleWeight;
-    private Integer femaleWeight;
+    private Float minWeight;
+    private Float maxWeight;
     private Integer lowerAverageAge;
     private Integer higherAverageAge;
-    private String characterTraits;
-    private String coatType;
+    private String temperament;
     private String colorCoat;
     private String origin;
 }
