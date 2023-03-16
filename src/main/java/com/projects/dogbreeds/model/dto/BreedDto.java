@@ -1,22 +1,15 @@
-package com.projects.dogbreeds.model.entity;
+package com.projects.dogbreeds.model.dto;
 
-import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Type;
 
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
-@Getter
 @Builder
-@Entity
-@Table(name = "dog_breed")
-public class Breed {
+public class BreedDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private String name;
     private String size;
     private Float minWeight;

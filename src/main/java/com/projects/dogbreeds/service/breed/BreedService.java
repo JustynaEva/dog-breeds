@@ -1,12 +1,18 @@
 package com.projects.dogbreeds.service.breed;
 
-import com.projects.dogbreeds.model.entity.Breed;
+import com.projects.dogbreeds.model.dto.BreedDto;
 
 import java.util.List;
 
 public interface BreedService {
 
-    List<Breed> getAllBreeds();
+    List<BreedDto> getAllBreeds();
 
-    Breed saveBreed(Breed breed);
+    BreedDto saveBreed(BreedDto breedDto);
+
+    BreedDto updateBreed(BreedDto breedDto);
+
+    BreedDto updateBreedPartial(BreedDto breedDto);
+
+    void deleteBreed(Integer id);
 }

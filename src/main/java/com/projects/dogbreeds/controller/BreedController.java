@@ -1,7 +1,6 @@
 package com.projects.dogbreeds.controller;
 
-import com.projects.dogbreeds.model.entity.Breed;
-import com.projects.dogbreeds.repository.BreedRepository;
+import com.projects.dogbreeds.model.dto.BreedDto;
 import com.projects.dogbreeds.service.breed.BreedService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,77 +14,25 @@ public class BreedController {
     private final BreedService breedService;
 
     @GetMapping("all")
-    public List<Breed> getAll() {
+    public List<BreedDto> getAll() {
         return breedService.getAllBreeds();
     }
-
     @PostMapping("save")
-    public Breed save(@RequestBody Breed breed) {
-        return breedService.saveBreed(breed);
+    public BreedDto save(@RequestBody BreedDto breedDto) {
+        return breedService.saveBreed(breedDto);
     }
+    @PutMapping("update")
+    public BreedDto update (@RequestBody BreedDto breedDto) {
 
-//    @PutMapping("update")
-//    public String updateWithFullBody (@RequestBody Breed breed, HttpServletResponse response) {
-//        if (BreedsRepository.breedsRepository.size() - 1 < breed.getId()) {
-//            return getResponseUnknownBreed(response);
-//        } else {
-//            BreedsRepository.breedsRepository.set(breed.getId(), breed);
-//        }
-//        return "Breed " + breed.getName() + " is updated.";
-//    }
-//
-//    //    private String origin;
-//
-//    @PatchMapping("update")
-//    public String updatePartial(@RequestBody Breed breed, HttpServletResponse response) {
-//        if (BreedsRepository.breedsRepository.size() - 1 < breed.getId()) {
-//            return getResponseUnknownBreed(response);
-//        } else {
-//
-//            Breed breedInRepo = BreedsRepository.breedsRepository.get(breed.getId());
-//
-//            if (breed.getName() != null) {
-//                breedInRepo.setName(breed.getName());
-//            }
-//            if (breed.getSize() != null) {
-//                breedInRepo.setSize(breed.getSize());
-//            }
-//            if (breed.getMaleWeight() != null) {
-//                breedInRepo.setMaleWeight(breed.getMaleWeight());
-//            }
-//            if (breed.getFemaleWeight() != null) {
-//                breedInRepo.setFemaleWeight(breed.getFemaleWeight());
-//            }
-//            if (breed.getLowerAverageAge() != null) {
-//                breedInRepo.setLowerAverageAge(breed.getLowerAverageAge());
-//            }
-//            if (breed.getHigherAverageAge() != null) {
-//                breedInRepo.setHigherAverageAge(breed.getHigherAverageAge());
-//            }
-//            if (breed.getCharacterTraits() != null) {
-//                breedInRepo.setCharacterTraits(breed.getCharacterTraits());
-//            }
-//            if (breed.getCoatType() != null) {
-//                breedInRepo.setCoatType(breed.getCoatType());
-//            }
-//            if (breed.getColorCoat() != null) {
-//                breedInRepo.setColorCoat(breed.getColorCoat());
-//            }
-//            if (breed.getOrigin() != null) {
-//                breedInRepo.setOrigin(breed.getOrigin());
-//            }
-//
-//            return "Breed " + breedInRepo.getName() + " is partially updated.";
-//        }
-//    }
-//    @DeleteMapping("delete/{id}")
-//    public String deleteBreed(@PathVariable int id) {
-//        BreedsRepository.breedsRepository.remove(id);
-//        return "Breed removed.";
-//    }
-//    private static String getResponseUnknownBreed(HttpServletResponse response) {
-//        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//        return "Breed is not recognized.Try to add a new breed.";
-//    }
-
+        return breedService.updateBreed(breedDto);
+    }
+    @PatchMapping("update")
+    public BreedDto updatePartial(@RequestBody BreedDto breedDto) {
+            return breedService.updateBreedPartial(breedDto);
+    }
+    @DeleteMapping("delete/{id}")
+    public String deleteBreed(@PathVariable int id) {
+        breedService.deleteBreed(id);
+        return "Breed removed.";
+    }
 }
