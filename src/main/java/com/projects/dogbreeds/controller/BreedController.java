@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("dogs")
@@ -17,22 +18,36 @@ public class BreedController {
     public List<BreedDto> getAll() {
         return breedService.getAllBreeds();
     }
+
     @PostMapping("save")
     public BreedDto save(@RequestBody BreedDto breedDto) {
         return breedService.saveBreed(breedDto);
     }
+
     @PutMapping("update")
     public BreedDto update (@RequestBody BreedDto breedDto) {
 
         return breedService.updateBreed(breedDto);
     }
+
     @PatchMapping("update")
     public BreedDto updatePartial(@RequestBody BreedDto breedDto) {
             return breedService.updateBreedPartial(breedDto);
     }
+
     @DeleteMapping("delete/{id}")
     public String deleteBreed(@PathVariable int id) {
         breedService.deleteBreed(id);
         return "Breed removed.";
+    }
+
+    @GetMapping("find-by-name/{name}")
+    public Set<BreedDto> findByName(@PathVariable String name) {
+        return breedService.findBreedByName(name);
+    }
+
+    @GetMapping("find-by-size/{size}")
+    public Set<BreedDto> findBySize(@PathVariable String size) {
+        return breedService.findBreedBySize(size);
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -23,6 +24,17 @@ public class BreedServiceImpl implements BreedService{
         return breedRepository.findAll().stream()
                 .map(BreedMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Set<BreedDto> findBreedByName(String name) {
+        return breedRepository.findBreedByNameContaining(name).stream().map(BreedMapper::toDto).collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<BreedDto> findBreedBySize(String size) {
+        return breedRepository.findBreedsBySize(size).stream()
+                .map(BreedMapper::toDto).collect(Collectors.toSet());
     }
 
     @Override
