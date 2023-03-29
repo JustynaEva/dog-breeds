@@ -3,6 +3,8 @@ package com.projects.dogbreeds.controller;
 import com.projects.dogbreeds.model.dto.BreedDto;
 import com.projects.dogbreeds.service.breed.BreedService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +32,10 @@ public class BreedController {
         return breedService.updateBreed(breedDto);
     }
 
+    @ExceptionHandler({RuntimeException.class})
+    public final ResponseEntity<Object> handleUpdateExceptions(Exception e){
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
     @PatchMapping("update")
     public BreedDto updatePartial(@RequestBody BreedDto breedDto) {
             return breedService.updateBreedPartial(breedDto);
@@ -43,11 +49,16 @@ public class BreedController {
 
     @GetMapping("find-by-name/{name}")
     public Set<BreedDto> findByName(@PathVariable String name) {
-        return breedService.findBreedByName(name);
+        return breedService.findBreedsByName(name);
     }
 
     @GetMapping("find-by-size/{size}")
     public Set<BreedDto> findBySize(@PathVariable String size) {
-        return breedService.findBreedBySize(size);
+        return breedService.findBreedsBySize(size);
+    }
+
+    @GetMapping("find-by-origin/{origin}")
+    public Set<BreedDto> findByOrigin(@PathVariable String origin) {
+        return breedService.findBreedsByOrigin(origin);
     }
 }

@@ -6,6 +6,7 @@ import com.projects.dogbreeds.repository.BreedRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 
 import java.util.List;
@@ -27,13 +28,20 @@ public class BreedServiceImpl implements BreedService{
     }
 
     @Override
-    public Set<BreedDto> findBreedByName(String name) {
-        return breedRepository.findBreedByNameContaining(name).stream().map(BreedMapper::toDto).collect(Collectors.toSet());
+    public Set<BreedDto> findBreedsByName(String name) {
+        return breedRepository.findBreedsByNameContaining(name).stream()
+                .map(BreedMapper::toDto).collect(Collectors.toSet());
     }
 
     @Override
-    public Set<BreedDto> findBreedBySize(String size) {
+    public Set<BreedDto> findBreedsBySize(String size) {
         return breedRepository.findBreedsBySize(size).stream()
+                .map(BreedMapper::toDto).collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<BreedDto> findBreedsByOrigin(String origin) {
+        return breedRepository.findBreedsByOrigin(origin).stream()
                 .map(BreedMapper::toDto).collect(Collectors.toSet());
     }
 
@@ -44,7 +52,7 @@ public class BreedServiceImpl implements BreedService{
 
     @Override
     public BreedDto updateBreed(BreedDto breedDto) {
-        breedRepository.findById(breedDto.getId()).ifPresent(breed -> {
+        return breedRepository.findById(breedDto.getId()).map(breed -> {
             breed.setName(breedDto.getName());
             breed.setSize(breedDto.getSize());
             breed.setMinWeight(breedDto.getMinWeight());
@@ -54,24 +62,42 @@ public class BreedServiceImpl implements BreedService{
             breed.setTemperament(breedDto.getTemperament());
             breed.setColorCoat(breedDto.getColorCoat());
             breed.setOrigin(breedDto.getOrigin());
-        });
-        return BreedMapper.toDto(breedRepository.getReferenceById(breedDto.getId()));
+            return BreedMapper.toDto(breed);
+        }).orElseThrow(()-> new RuntimeException("Nie ma takiej rasy w bazie."));
     }
 
     @Override
     public BreedDto updateBreedPartial(BreedDto breedDto) {
-        breedRepository.findById(breedDto.getId()).ifPresent(breed -> {
-            if(breedDto.getName()!=null) {breed.setName(breedDto.getName());}
-            if(breedDto.getSize()!=null) {breed.setSize(breedDto.getSize());}
-            if(breedDto.getMinWeight()!=null) {breed.setMinWeight(breedDto.getMinWeight());}
-            if(breedDto.getMaxWeight()!=null) {breed.setMaxWeight(breedDto.getMaxWeight());}
-            if(breedDto.getLowerAverageAge()!=null) {breed.setLowerAverageAge(breedDto.getLowerAverageAge());}
-            if(breedDto.getHigherAverageAge()!=null) {breed.setHigherAverageAge(breedDto.getHigherAverageAge());}
-            if(breedDto.getTemperament()!=null) {breed.setTemperament(breedDto.getTemperament());}
-            if(breedDto.getColorCoat()!=null) {breed.setColorCoat(breedDto.getColorCoat());}
-            if(breedDto.getOrigin()!=null) {breed.setOrigin(breedDto.getOrigin());}
-        });
-        return BreedMapper.toDto(breedRepository.getReferenceById(breedDto.getId()));
+        return breedRepository.findById(breedDto.getId()).map(breed -> {
+            if (breedDto.getName() != null) {
+                breed.setName(breedDto.getName());
+            }
+            if (breedDto.getSize() != null) {
+                breed.setSize(breedDto.getSize());
+            }
+            if (breedDto.getMinWeight() != null) {
+                breed.setMinWeight(breedDto.getMinWeight());
+            }
+            if (breedDto.getMaxWeight() != null) {
+                breed.setMaxWeight(breedDto.getMaxWeight());
+            }
+            if (breedDto.getLowerAverageAge() != null) {
+                breed.setLowerAverageAge(breedDto.getLowerAverageAge());
+            }
+            if (breedDto.getHigherAverageAge() != null) {
+                breed.setHigherAverageAge(breedDto.getHigherAverageAge());
+            }
+            if (breedDto.getTemperament() != null) {
+                breed.setTemperament(breedDto.getTemperament());
+            }
+            if (breedDto.getColorCoat() != null) {
+                breed.setColorCoat(breedDto.getColorCoat());
+            }
+            if (breedDto.getOrigin() != null) {
+                breed.setOrigin(breedDto.getOrigin());
+            }
+            return BreedMapper.toDto(breed);
+        }).orElseThrow(()-> new RuntimeException("Nie ma takiej rasy w bazie."));
     }
 
     @Override
