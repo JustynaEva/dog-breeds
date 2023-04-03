@@ -1,13 +1,14 @@
 package com.projects.dogbreeds.service.breed;
 
+import com.projects.dogbreeds.exception.exceptions.BreedNotFoundException;
+import com.projects.dogbreeds.exception.messages.BreedControllerExceptionMessages;
 import com.projects.dogbreeds.model.dto.BreedDto;
+import com.projects.dogbreeds.model.entity.Breed;
 import com.projects.dogbreeds.model.mapper.BreedMapper;
 import com.projects.dogbreeds.repository.BreedRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-
 
 import java.util.List;
 import java.util.Set;
@@ -29,19 +30,33 @@ public class BreedServiceImpl implements BreedService{
 
     @Override
     public Set<BreedDto> findBreedsByName(String name) {
-        return breedRepository.findBreedsByNameContaining(name).stream()
-                .map(BreedMapper::toDto).collect(Collectors.toSet());
+        Set<Breed> breeds = breedRepository.findBreedsByNameContaining(name);
+        if(breeds.isEmpty()){
+            throw new BreedNotFoundException(BreedControllerExceptionMessages
+                    .ENTITY_FOR_PROVIDED_NAME_NOT_EXIST.getMessage());
+        }
+        return breeds.stream().map(BreedMapper::toDto).collect(Collectors.toSet());
     }
 
     @Override
     public Set<BreedDto> findBreedsBySize(String size) {
-        return breedRepository.findBreedsBySize(size).stream()
+        Set<Breed> breeds = breedRepository.findBreedsBySize(size);
+        if (breeds.isEmpty()) {
+            throw new BreedNotFoundException(BreedControllerExceptionMessages
+                    .ENTITY_FOR_PROVIDED_SIZE_NOT_EXIST.getMessage());
+        }
+        return breeds.stream()
                 .map(BreedMapper::toDto).collect(Collectors.toSet());
     }
 
     @Override
     public Set<BreedDto> findBreedsByOrigin(String origin) {
-        return breedRepository.findBreedsByOrigin(origin).stream()
+        Set<Breed> breeds = breedRepository.findBreedsByOrigin(origin);
+        if(breeds.isEmpty()) {
+            throw new BreedNotFoundException(BreedControllerExceptionMessages
+                    .ENTITY_FOR_PROVIDED_ORIGIN_NOT_EXIST.getMessage());
+        }
+        return breeds.stream()
                 .map(BreedMapper::toDto).collect(Collectors.toSet());
     }
 
@@ -63,7 +78,8 @@ public class BreedServiceImpl implements BreedService{
             breed.setColorCoat(breedDto.getColorCoat());
             breed.setOrigin(breedDto.getOrigin());
             return BreedMapper.toDto(breed);
-        }).orElseThrow(()-> new RuntimeException("Nie ma takiej rasy w bazie."));
+        }).orElseThrow(()-> new BreedNotFoundException(BreedControllerExceptionMessages
+                .ENTITY_FOR_PROVIDED_ID_NOT_EXIST.getMessage()));
     }
 
     @Override
@@ -97,11 +113,18 @@ public class BreedServiceImpl implements BreedService{
                 breed.setOrigin(breedDto.getOrigin());
             }
             return BreedMapper.toDto(breed);
-        }).orElseThrow(()-> new RuntimeException("Nie ma takiej rasy w bazie."));
+        }).orElseThrow(()-> new BreedNotFoundException(BreedControllerExceptionMessages
+                .ENTITY_FOR_PROVIDED_ID_NOT_EXIST.getMessage()));
     }
 
     @Override
     public void deleteBreed(Integer id) {
-        breedRepository.deleteById(id);
+        if(breedRepository.findById(id).isEmpty()){
+            throw new BreedNotFoundException(BreedControllerExceptionMessages
+                    .ENTITY_FOR_PROVIDED_ID_NOT_EXIST.getMessage());
+        } else {
+            breedRepository.deleteById(id);
+        }
+
     }
 }
