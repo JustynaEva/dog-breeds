@@ -7,6 +7,7 @@ import com.projects.dogbreeds.model.entity.Breed;
 import com.projects.dogbreeds.model.mapper.BreedMapper;
 import com.projects.dogbreeds.repository.BreedRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -16,7 +16,7 @@ public class Breed {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-
+    @Column(unique = true)
     private String name;
     private String size;
     private Float minWeight;
