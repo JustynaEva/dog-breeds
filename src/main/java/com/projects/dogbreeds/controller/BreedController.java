@@ -2,9 +2,8 @@ package com.projects.dogbreeds.controller;
 
 import com.projects.dogbreeds.model.dto.BreedDto;
 import com.projects.dogbreeds.service.breed.BreedService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,20 +21,16 @@ public class BreedController {
     }
 
     @PostMapping("save")
-    public BreedDto save(@RequestBody BreedDto breedDto) {
+    public BreedDto save(@Valid @RequestBody BreedDto breedDto) {
         return breedService.saveBreed(breedDto);
     }
 
     @PutMapping("update")
-    public BreedDto update (@RequestBody BreedDto breedDto) {
+    public BreedDto update (@Valid @RequestBody BreedDto breedDto) {
 
         return breedService.updateBreed(breedDto);
     }
 
-    @ExceptionHandler({RuntimeException.class})
-    public final ResponseEntity<Object> handleUpdateExceptions(Exception e){
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
     @PatchMapping("update")
     public BreedDto updatePartial(@RequestBody BreedDto breedDto) {
             return breedService.updateBreedPartial(breedDto);
